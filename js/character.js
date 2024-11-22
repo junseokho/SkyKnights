@@ -2,7 +2,7 @@ const characterList = document.getElementById('characterList'); // 캐릭터 목
 let activeDeleteBtn = null; // 현재 활성화된 삭제 버튼
 
 // Fetch characters from the local JSON file
-fetch('characters.json')
+fetch(`characters.json?timestamp=${new Date().getTime()}`)
   .then((response) => {
     if (!response.ok) {
       throw new Error('Failed to fetch data from JSON file');
@@ -52,8 +52,8 @@ fetch('characters.json')
       });
     }
   })
-  .catch(() => {
-    characterList.innerHTML = '<p class="error">캐릭터 데이터를 로드할 수 없습니다.</p>';
+  .catch((error) => {
+    console.error('Error fetching characters:', error);
   });
 
 // Function to delete a character

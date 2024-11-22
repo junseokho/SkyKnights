@@ -2,7 +2,7 @@ const scenarioList = document.getElementById('scenarioList'); // 시나리오 �
 let activeDeleteBtn = null; // 현재 활성화된 삭제 버튼
 
 // Fetch scenarios from the local JSON file
-fetch('scenarios.json')
+fetch(`scenarios.json?timestamp=${new Date().getTime()}`)
   .then((response) => {
     if (!response.ok) {
       throw new Error('Failed to fetch data from JSON file');
@@ -53,9 +53,9 @@ fetch('scenarios.json')
     }
   })
   .catch((error) => {
-    scenarioList.innerHTML = '<p class="error">시나리오 데이터를 로드할 수 없습니다.</p>';
+    console.error('Error fetching scenarios:', error);
   });
-
+  
 // Function to delete a scenario
 function deleteScenario(index) {
   fetch('scenarios.json')

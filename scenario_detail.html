@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>업적 상세</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f9fa;
+      color: #343a40;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      background-color: #343a40;
+      color: white;
+      padding: 10px 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    nav ul li {
+      margin-right: 20px;
+    }
+
+    nav ul li a {
+      color: #ffcc00;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #343a40;
+    }
+
+    p {
+      line-height: 1.6;
+      margin-bottom: 15px;
+      color: #555;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><strong>명예의 전당</strong></li>
+    </ul>
+    <ul>
+      <li><a href="index.html">홀</a></li>
+      <li><a href="scenario.html">업적</a></li>
+      <li><a href="character.html">영웅</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <h1 id="title">업적 제목</h1>
+    <img id="image" src="" alt="업적 이미지">
+    <p id="description">업적 상세 내용</p>
+  </main>
+
+  <script>
+    // URL에서 title 추출
+    const urlParams = new URLSearchParams(window.location.search);
+    const title = urlParams.get("title");
+
+    // JSON 데이터 가져오기
+    fetch("scenarios.json")
+      .then((response) => response.json())
+      .then((scenarios) => {
+        // 선택된 업적 찾기
+        const item = scenarios.find((entry) => entry.title === title);
+
+        if (item) {
+          // 데이터 렌더링
+          document.getElementById("title").innerText = item.title;
+          document.getElementById("image").src = item.image || "default.jpg"; // 이미지가 없을 경우 기본 이미지 설정
+          document.getElementById("description").innerText = item.content;
+        } else {
+          document.body.innerHTML = "<h1>존재하지 않는 업적입니다.</h1>";
+        }
+      })
+      .catch((error) => {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+        document.body.innerHTML = "<h1>데이터를 불러오는 데 실패했습니다.</h1>";
+      });
+  </script>
+</body>
+</html>

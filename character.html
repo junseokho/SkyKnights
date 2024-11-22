@@ -6,49 +6,102 @@
   <title>영웅</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
   <style>
-    .container { padding: 20px; }
-    .grid {
-      display: block; /* 세로로 쌓이도록 설정 */
+    /* 공통 스타일 */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f9fa; /* 부드러운 배경색 */
+      color: #343a40; /* 텍스트 색상 */
     }
-    .card {
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
+
+    nav {
+      background-color: #343a40; /* 네비게이션 배경색 */
+      color: white;
+      padding: 10px 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    nav ul li {
+      margin-right: 20px;
+    }
+
+    nav ul li a {
+      color: #ffcc00; /* 링크 색상 */
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav ul li strong {
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
       padding: 20px;
-      margin-bottom: 20px; /* 카드 간 간격 */
+    }
+
+    h1 {
+      text-align: center;
+      color: #343a40;
+      margin-bottom: 30px;
+    }
+
+    /* 카드 레이아웃 */
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* 카드 스타일 */
+    .card {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      box-sizing: border-box;
-      position: relative;
-    }
-    .card h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .card p {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      height: 100px;
-    }
-    .card img {
-      max-width: 100%;
-      height: auto;
-    }
-    .delete-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      color: #000;
-      font-size: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
-      display: none;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .card img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      margin: 0;
+      margin-bottom: 10px;
+      color: #343a40;
+    }
+
+    .card p {
+      margin: 0;
+      line-height: 1.6;
+      color: #555;
     }
   </style>
 </head>
 <body>
-  <nav class="container-fluid">
+  <!-- 네비게이션 -->
+  <nav>
     <ul>
       <li><strong>명예의 전당</strong></li>
     </ul>
@@ -59,6 +112,7 @@
     </ul>
   </nav>
 
+  <!-- 메인 콘텐츠 -->
   <main class="container">
     <h1>영웅</h1>
     <div id="characterList" class="grid"></div>

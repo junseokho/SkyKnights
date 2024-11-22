@@ -6,49 +6,93 @@
   <title>업적</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
   <style>
-    .container { padding: 20px; }
+    /* 공통 스타일 */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background-image: url('https://pbs.twimg.com/media/Gc_mjjObMAAqM1x?format=jpg&name=medium'); /* 배경 이미지 */
+      background-size: cover; /* 배경 이미지가 화면을 꽉 채우도록 */
+      background-attachment: fixed; /* 스크롤해도 배경 고정 */
+      background-position: center; /* 배경을 화면 중앙에 위치 */
+      color: white;
+    }
+
+    /* 네비게이션 스타일 */
+    nav {
+      background-color: rgba(0, 0, 0, 0.7); /* 어두운 투명 배경 */
+      color: white;
+      padding: 10px 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    nav ul li {
+      margin-right: 20px;
+    }
+
+    nav ul li a {
+      color: #ffcc00; /* 링크 색상 */
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #ffeb3b;
+    }
+
+    nav ul li strong {
+      color: #fff; /* "명예의 전당" 텍스트 색상 */
+      font-size: 1.2rem;
+    }
+
+    /* 카드 레이아웃 및 스타일 */
     .grid {
-      display: block; /* 세로로 쌓이도록 변경 */
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 반응형 그리드 */
+      gap: 20px;
+      padding: 40px; /* 카드 섹션 내부 여백 */
     }
+
     .card {
-      background-color: #fff;
+      background-color: rgba(255, 255, 255, 0.9); /* 흰색 배경 (투명도 유지) */
       border: 1px solid #ddd;
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 20px;
-      margin-bottom: 20px; /* 카드 간 간격 설정 */
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      box-sizing: border-box;
-      position: relative;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 카드 그림자 */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer; /* 클릭 가능 표시 */
     }
+
+    .card:hover {
+      transform: translateY(-5px); /* 호버 시 살짝 올라오는 효과 */
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
     .card h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size: 1.5rem;
+      margin: 0 0 10px;
+      color: #333;
     }
-    .card p {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      height: 100px;
-    }
+
     .card img {
       max-width: 100%;
       height: auto;
-    }
-    .delete-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      color: #000;
-      font-size: 20px;
-      cursor: pointer;
-      display: none;
+      margin-top: 10px;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
-  <nav class="container-fluid">
+  <!-- 네비게이션 -->
+  <nav>
     <ul>
       <li><strong>명예의 전당</strong></li>
     </ul>
@@ -59,11 +103,42 @@
     </ul>
   </nav>
 
-  <main class="container">
-    <h1>업적</h1>
+  <!-- 메인 콘텐츠 -->
+  <main>
     <div id="scenarioList" class="grid"></div>
   </main>
 
-  <script src="js/scenario.js"></script>
+  <script>
+    // JSON 데이터 가져오기 및 렌더링
+    fetch('scenarios.json')
+      .then((response) => response.json())
+      .then((scenarios) => {
+        const scenarioList = document.getElementById('scenarioList');
+
+        if (scenarios.length === 0) {
+          scenarioList.innerHTML = '<p>아직 시나리오가 없습니다.</p>';
+        } else {
+          scenarios.forEach((scenario) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            card.innerHTML = `
+              <h3>${scenario.title}</h3>
+              <img src="${scenario.image}" alt="시나리오 이미지">
+            `;
+
+            // 카드 클릭 시 상세 페이지로 이동
+            card.addEventListener('click', () => {
+              window.location.href = `scenario_detail.html?title=${encodeURIComponent(scenario.title)}`;
+            });
+
+            scenarioList.appendChild(card);
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('데이터를 가져오는 중 오류 발생:', error);
+      });
+  </script>
 </body>
 </html>

@@ -1,27 +1,28 @@
 const characterList = document.getElementById('characterList'); // 캐릭터 목록을 담는 부모 컨테이너
 let activeDeleteBtn = null; // 현재 활성화된 삭제 버튼
 
-// Fetch characters from the server
-fetch('/api/characters')
-  .then((res) => res.json())
+// Fetch characters from the local JSON file
+fetch('characters.json')
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Failed to fetch data from JSON file');
+    }
+    return response.json();
+  })
   .then((characters) => {
     if (characters.length === 0) {
       characterList.innerHTML = '<p class="empty">아직 캐릭터 데이터가 없습니다.</p>';
     } else {
       characters.forEach((character, index) => {
-        // Create card element
         const card = document.createElement('div');
         card.className = 'card';
 
-        // Set card content
         card.innerHTML = `
           <h3>${character.title}</h3>
           <p>${character.content}</p>
-          ${character.image ? `<img src="${character.image}" alt="캐릭터 이미지">` : ''}
+          ${character.image ? `<img src="${character.image}" alt="캐릭터 이미지" style="max-width: 100%; height: auto;">` : ''}
         `;
 
-
-        // Create delete button
         const deleteBtn = document.createElement('span');
         deleteBtn.textContent = '×';
         deleteBtn.className = 'delete-btn';
@@ -46,10 +47,7 @@ fetch('/api/characters')
           }
         });
 
-        // Append delete button to card
         card.appendChild(deleteBtn);
-
-        // Append card to parent container
         characterList.appendChild(card);
       });
     }
@@ -60,13 +58,22 @@ fetch('/api/characters')
 
 // Function to delete a character
 function deleteCharacter(index) {
-  fetch(`/api/characters/${index}`, { method: 'DELETE' })
-    .then((res) => {
-      if (res.ok) {
-        alert('캐릭터가 삭제되었습니다.');
-        location.reload(); // Reload the page to update the list
-      } else {
-        alert('삭제 실패. 다시 시도하세요.');
-      }
+  fetch('characters.json')
+    .then((response) => response.json())
+    .then((characters) => {
+      characters.splice(index, 1); // Remove the character at the specified index
+
+      // Create a downloadable JSON blob
+      const blob = new Blob([JSON.stringify(characters, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'characters.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      alert('캐릭터가 삭제되었습니다.');
+      location.reload(); // Reload the page to update the list
     });
 }

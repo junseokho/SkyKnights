@@ -1,26 +1,28 @@
 const scenarioList = document.getElementById('scenarioList'); // 시나리오 목록을 담는 부모 컨테이너
 let activeDeleteBtn = null; // 현재 활성화된 삭제 버튼
 
-// Fetch scenarios from the server
-fetch('/api/scenarios')
-  .then((res) => res.json())
+// Fetch scenarios from the local JSON file
+fetch('scenarios.json')
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Failed to fetch data from JSON file');
+    }
+    return response.json();
+  })
   .then((scenarios) => {
     if (scenarios.length === 0) {
       scenarioList.innerHTML = '<p class="empty">아직 시나리오 데이터가 없습니다.</p>';
     } else {
       scenarios.forEach((scenario, index) => {
-        // Create card element
         const card = document.createElement('div');
         card.className = 'card';
-
-        // Set card content
+        
         card.innerHTML = `
           <h3>${scenario.title}</h3>
           <p>${scenario.content}</p>
-          ${scenario.image ? `<img src="${scenario.image}" alt="시나리오 이미지">` : ''}
+          ${scenario.image ? `<img src="${scenario.image}" alt="시나리오 이미지" style="max-width: 100%; height: auto;">` : ''}
         `;
 
-        // Create delete button
         const deleteBtn = document.createElement('span');
         deleteBtn.textContent = '×';
         deleteBtn.className = 'delete-btn';
@@ -45,27 +47,33 @@ fetch('/api/scenarios')
           }
         });
 
-        // Append delete button to card
         card.appendChild(deleteBtn);
-
-        // Append card to parent container
         scenarioList.appendChild(card);
       });
     }
   })
-  .catch(() => {
+  .catch((error) => {
     scenarioList.innerHTML = '<p class="error">시나리오 데이터를 로드할 수 없습니다.</p>';
   });
 
 // Function to delete a scenario
 function deleteScenario(index) {
-  fetch(`/api/scenarios/${index}`, { method: 'DELETE' })
-    .then((res) => {
-      if (res.ok) {
-        alert('시나리오가 삭제되었습니다.');
-        location.reload(); // Reload the page to update the list
-      } else {
-        alert('삭제 실패. 다시 시도하세요.');
-      }
+  fetch('scenarios.json')
+    .then((response) => response.json())
+    .then((scenarios) => {
+      scenarios.splice(index, 1); // Remove the scenario at the specified index
+
+      // Create a downloadable JSON blob
+      const blob = new Blob([JSON.stringify(scenarios, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'scenarios.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      alert('시나리오가 삭제되었습니다.');
+      location.reload(); // Reload the page to update the list
     });
 }

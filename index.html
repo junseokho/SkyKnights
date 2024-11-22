@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>업로드 페이지</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <style>
+    .container { padding: 20px; }
+    .form-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; max-width: 600px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul>
+      <li><strong>TRPG 정리</strong></li>
+    </ul>
+    <ul>
+      <li><a href="index.html">업로드</a></li>
+      <li><a href="scenario.html">시나리오</a></li>
+      <li><a href="character.html">캐릭터</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <h1>캐릭터 및 시나리오 업로드</h1>
+    <form class="form-grid" id="uploadForm">
+      <label for="uploadType">업로드 타입</label>
+      <select id="uploadType" required>
+        <option value="scenarios">시나리오</option>
+        <option value="characters">캐릭터</option>
+      </select>
+
+      <label for="title">제목</label>
+      <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
+
+      <label for="content">내용</label>
+      <textarea id="content" name="content" placeholder="내용을 입력하세요" rows="4" required></textarea>
+
+      <label for="imageURL">이미지 URL</label>
+      <input type="text" id="imageURL" name="imageURL" placeholder="이미지 URL을 입력하세요">
+
+      <button type="submit">업로드</button>
+    </form>
+  </main>
+
+  <script src="js/upload.js"></script>
+</body>
+</html>

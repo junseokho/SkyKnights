@@ -1,0 +1,41 @@
+.delete-btn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px; /* 버튼 크기 조정 */
+    height: 20px; /* 버튼 크기 조정 */
+    font-size: 14px; /* 글자 크기 조정 */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .delete-btn:hover {
+    background: #ff1a1a;
+  }
+  
+  .card-content {
+    position: relative; /* X 버튼 위치를 위한 상대 위치 */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .delete-btn.hidden {
+    display: none; /* 기본 상태에서 숨김 */
+  }
+  
+  .delete-btn.visible {
+    display: flex; /* 클릭 시 보이도록 설정 */
+  }
+  
+  .delete-btn-container {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+  

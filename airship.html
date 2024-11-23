@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>업적</title>
+  <title>비공정</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
   <style>
     /* 공통 스타일 */
@@ -69,6 +69,9 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 카드 그림자 */
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer; /* 클릭 가능 표시 */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .card:hover {
@@ -104,37 +107,36 @@
     </ul>
   </nav>
   
-
   <!-- 메인 콘텐츠 -->
   <main>
-    <div id="scenarioList" class="grid"></div>
+    <div id="airshipList" class="grid"></div>
   </main>
 
   <script>
     // JSON 데이터 가져오기 및 렌더링
-    fetch('scenarios.json')
+    fetch('flights.json')
       .then((response) => response.json())
-      .then((scenarios) => {
-        const scenarioList = document.getElementById('scenarioList');
+      .then((flights) => {
+        const airshipList = document.getElementById('airshipList');
 
-        if (scenarios.length === 0) {
-          scenarioList.innerHTML = '<p>아직 시나리오가 없습니다.</p>';
+        if (flights.length === 0) {
+          airshipList.innerHTML = '<p>아직 비공정이 없습니다.</p>';
         } else {
-          scenarios.forEach((scenario) => {
+          flights.forEach((flight) => {
             const card = document.createElement('div');
             card.className = 'card';
 
             card.innerHTML = `
-              <h3>${scenario.title}</h3>
-              <img src="${scenario.image}" alt="시나리오 이미지">
+              <h3>${flight.title}</h3>
+              <img src="${flight.image}" alt="비공정 이미지">
             `;
 
             // 카드 클릭 시 상세 페이지로 이동
             card.addEventListener('click', () => {
-              window.location.href = `scenario_detail.html?title=${encodeURIComponent(scenario.title)}`;
+                window.location.href = `airship_detail.html?title=${encodeURIComponent(flight.title)}`;
             });
 
-            scenarioList.appendChild(card);
+            airshipList.appendChild(card);
           });
         }
       })

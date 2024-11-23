@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>업적 상세</title>
+  <title>비공정 상세</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
   <style>
     body {
@@ -38,31 +38,35 @@
       font-weight: bold;
     }
 
+    /* 컨테이너 스타일 */
     .container {
-      max-width: 800px;
+      max-width: 1600px; /* 이전보다 두 배 크기 */
       margin: 40px auto;
-      padding: 20px;
+      padding: 40px; /* 여백 추가 */
       background: white;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     h1 {
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       color: #343a40;
+      font-size: 2.5rem; /* 제목 크기 */
     }
 
     p {
-      line-height: 1.6;
-      margin-bottom: 15px;
+      line-height: 1.8;
+      margin-bottom: 20px;
       color: #555;
+      font-size: 1.2rem; /* 본문 크기 */
     }
 
     img {
       max-width: 100%;
       height: auto;
-      margin-bottom: 20px;
-      border-radius: 8px;
+      margin-bottom: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 이미지 그림자 */
     }
   </style>
 </head>
@@ -78,12 +82,11 @@
       <li><a href="airship.html">비공정</a></li>
     </ul>
   </nav>
-  
 
   <main class="container">
-    <h1 id="title">업적 제목</h1>
-    <img id="image" src="" alt="업적 이미지">
-    <p id="description">업적 상세 내용</p>
+    <h1 id="title">비공정 제목</h1>
+    <img id="image" src="" alt="비공정 이미지">
+    <p id="description">비공정 상세 내용</p>
   </main>
 
   <script>
@@ -92,11 +95,11 @@
     const title = urlParams.get("title");
 
     // JSON 데이터 가져오기
-    fetch("scenarios.json")
+    fetch("flights.json")
       .then((response) => response.json())
-      .then((scenarios) => {
-        // 선택된 업적 찾기
-        const item = scenarios.find((entry) => entry.title === title);
+      .then((airships) => {
+        // 선택된 비공정 찾기
+        const item = airships.find((entry) => entry.title === title);
 
         if (item) {
           // 데이터 렌더링
@@ -104,7 +107,7 @@
           document.getElementById("image").src = item.image || "default.jpg"; // 이미지가 없을 경우 기본 이미지 설정
           document.getElementById("description").innerText = item.content;
         } else {
-          document.body.innerHTML = "<h1>존재하지 않는 업적입니다.</h1>";
+          document.body.innerHTML = "<h1>존재하지 않는 비공정입니다.</h1>";
         }
       })
       .catch((error) => {

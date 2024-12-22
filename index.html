@@ -10,7 +10,7 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Arial', sans-serif;
+      font-family: 'SCDream', Arial, sans-serif; /* 기본 폰트 설정 */
       background-image: url('https://pbs.twimg.com/media/Gc-RznRaAAAONLH?format=jpg&name=medium');
       background-size: cover;
       background-attachment: fixed; /* 배경 고정 */
@@ -18,6 +18,24 @@
       color: white;
       position: relative;
       overflow-x: hidden;
+    }
+
+    @font-face {
+      font-family: 'SCDream';
+      src: url('font/SCDream1.otf') format('opentype'); /* 예제 파일 */
+      font-weight: 400; /* 기본 폰트 */
+    }
+
+    @font-face {
+      font-family: 'SCDream';
+      src: url('font/SCDream2.otf') format('opentype');
+      font-weight: 500; /* 중간 굵기 */
+    }
+
+    @font-face {
+      font-family: 'SCDream';
+      src: url('font/SCDream3.otf') format('opentype');
+      font-weight: 700; /* 굵은 폰트 */
     }
 
     /* 어두운 오버레이 */
